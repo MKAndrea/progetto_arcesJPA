@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.utente.entity.Shop;
 import it.utente.repository.ShopRepository;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
