@@ -1,37 +1,53 @@
 package it.utente.JPAController;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.utente.crud.UtenteCrud;
 import it.utente.entity.Utente;
-import it.utente.repository.UtenteRepository;
+
 @RestController
 @RequestMapping("/api")
 public class UtenteController {
 	 @Autowired
-	 private UtenteRepository repository;
+	 private UtenteCrud utentecrud;
 	 
-	 @RequestMapping(value="/finduser",method=RequestMethod.GET,produces="application/json")
-	 public ResponseEntity<List<Utente>> finduser() throws Exception {
-		 List<Utente> userList = repository.findAll();
-		  if(userList.isEmpty()) {
-		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		    } else {
-		        return new ResponseEntity<>(userList, HttpStatus.OK);
-		    }
-	 }
-	 @RequestMapping(value="/finduser/{id}",method=RequestMethod.GET,produces="application/json")
-	 public ResponseEntity<Utente> finduserById(@PathVariable("id") Integer id) throws Exception {
-	  Optional<Utente> res=repository.findById(id);
-	  return res.map(utente -> new ResponseEntity<>(utente, HttpStatus.OK))
-	            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-	 }
+	 
+	 @GetMapping(value="/AllUsers",produces="application/json")
+	    public List<Utente> getAllProducts() {
+	        return utentecrud.getAllUsers();
+	    }
+
+	    @GetMapping("/findUsers/{id}")
+	    public Utente getUtenteById(@PathVariable int id) {
+	        return utentecrud.getUserById(id);
+	    }
+
+	    @PostMapping("/upsertUser")
+	    public Utente upsertUser(@RequestBody Utente utente) {
+	        return utentecrud.upsertUsers(utente);
+	    }
+
+	    @DeleteMapping("/DeleteUtente/{id}")
+	    public void deleteUtente(@PathVariable int id) {
+	    	utentecrud.deleteUsers(id);
+	    }
+	 
+//	 @GetMapping(value="/allUsers",produces="application/json")
+//	 public List<Utente> allProduct() throws Exception {
+//		 return repository.findAll();
+//	 }
+//	 
+//	 @GetMapping(value="/findUsers/{id}",produces="application/json")
+//		public Optional<Utente> findproductbyId(@PathVariable("id") Integer id) throws Exception {
+//		return  repository.findById(id);
+//		}
 }
