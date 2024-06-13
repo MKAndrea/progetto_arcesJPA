@@ -3,6 +3,7 @@ package it.utente.JPAController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,20 @@ import it.utente.entity.Utente;
 public class UtenteController {
 	 @Autowired
 	 private UtenteCrud utentecrud;
-	 
+	 @Autowired
+	    private BCryptPasswordEncoder passwordEncoder;
+
+	    @PostMapping("/register")
+	    public String register(@RequestBody Utente user) {
+	        user.setPassword(passwordEncoder.encode(user.getPassword()));
+	        utentecrud.upsertUsers(user);
+	        return "User registered successfully";
+	    }
+
+	    @PostMapping("/login")
+	    public String login() {
+	        return "Login successful";
+	    }
 	 
 	 @GetMapping(value="/AllUsers",produces="application/json")
 	    public List<Utente> getAllProducts() {

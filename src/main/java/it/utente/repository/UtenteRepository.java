@@ -11,18 +11,25 @@ import it.utente.entity.Utente;
 import jakarta.transaction.Transactional;
 @Repository
 public interface UtenteRepository extends JpaRepository<Utente,Integer>{
-	@Modifying
+	
+	@Query("SELECT u FROM Utente u WHERE u.username = :username")
+    Utente getUserByUsername(@Param("username") String username);
+	 
+    @Modifying
     @Transactional
-    @Query(value = "INSERT INTO users (idutente, nome, cognome, username,cellulare,indirizzo,eta,password) " +
-                   "VALUES (:idutente, :nome, :cognome, :username,:cellulare,:indirizzo,:eta,:password) " +
-                   "ON DUPLICATE KEY UPDATE nome = :nome, cognome = :username, cellulare = :cellulare,indirizzo = :cellulare,eta = :eta,"
-                   + "password = :password,", nativeQuery = true)
-    void upsertProduct(@Param("idutente") int id, 
-                       @Param("nome") String nome, 
-                       @Param("cognome") String cognome,
-                       @Param("username") String username, 
-                       @Param("cellulare") String cellulare, 
-                       @Param("indirizzo") String indirizzo, 
-                       @Param("eta") int eta, 
-                       @Param("password") String password);
+    @Query(value = "INSERT INTO users (idutente, nome, cognome, username, cellulare, indirizzo, eta, password, role, enabled) " +
+                   "VALUES (:idutente, :nome, :cognome, :username, :cellulare, :indirizzo, :eta, :password, :role, :enabled) " +
+                   "ON DUPLICATE KEY UPDATE nome = :nome, cognome = :cognome, username = :username, " +
+                   "cellulare = :cellulare, indirizzo = :indirizzo, eta = :eta, password = :password, " +
+                   "role = :role, enabled = :enabled", nativeQuery = true)
+    void upsertUser(@Param("idutente") int id, 
+                    @Param("nome") String nome, 
+                    @Param("cognome") String cognome,
+                    @Param("username") String username, 
+                    @Param("cellulare") String cellulare, 
+                    @Param("indirizzo") String indirizzo, 
+                    @Param("eta") int eta, 
+                    @Param("password") String password,
+                    @Param("role") String role,
+                    @Param("enabled") boolean enabled);
 }

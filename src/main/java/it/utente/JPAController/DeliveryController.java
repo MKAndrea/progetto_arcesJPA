@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.utente.crud.ShopCrud;
 import it.utente.entity.Shop;
+import it.utente.entity.Utente;
+
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
 
 
@@ -25,6 +28,7 @@ public class DeliveryController {
 	
  @Autowired
  private ShopCrud shopcrud;
+ 
  
  @GetMapping(value="/allShop",produces="application/json")
  public List<Shop> getAllProducts() {
@@ -46,4 +50,5 @@ public class DeliveryController {
  public void deleteShop(@PathVariable int id) {
 	 shopcrud.deleteShop(id);
  }
+ 
 }

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import it.utente.entity.Product;
 import it.utente.entity.Utente;
 
 import it.utente.repository.UtenteRepository;
@@ -14,7 +16,19 @@ import it.utente.repository.UtenteRepository;
 public class UtenteCrud {
 	  @Autowired
 	    private UtenteRepository repository;
-	  
+	  @Autowired
+	    private BCryptPasswordEncoder passwordEncoder;
+
+	    public String register(@RequestBody Utente user) {
+	        user.setPassword(passwordEncoder.encode(user.getPassword()));
+	        repository.save(user);
+	        return "User registered successfully";
+	    }
+
+	    public String login() {
+	        return "Login successful";
+	    }
+	    
 	public List<Utente> getAllUsers() {
         return repository.findAll();
     }
