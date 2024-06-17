@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.utente.crud.ShopCrud;
 import it.utente.entity.Shop;
-import it.utente.entity.Utente;
+import it.utente.entity.Utente2;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api")
-public class DeliveryController {
+public class DeliveryRestController {
 	
  @Autowired
  private ShopCrud shopcrud;

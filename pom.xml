@@ -48,6 +48,11 @@
 			<artifactId>Prova1</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>HelloWorldSpringBootDataJpa</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

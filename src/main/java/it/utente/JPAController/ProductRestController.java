@@ -14,7 +14,7 @@ import it.utente.crud.ProductCrud;
 import it.utente.entity.Product;
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class ProductRestController {
 	 @Autowired
 	    private ProductCrud productcrud;
 	

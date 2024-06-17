@@ -17,32 +17,30 @@ import it.utente.crud.UserDetailsServiceImpl;
 public class WebSecurityConfig  {
 
     @Bean
-     UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(); 
     }
-     
-    @Bean
-     BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-     @Bean
-     DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-         
-        return authProvider;
-    }
- 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                auth -> auth.anyRequest().authenticated())
-            .formLogin(login -> login.permitAll())
-            .logout(logout -> logout.permitAll())
-        ;
-         
-        return http.build();
-    }   
+
+       @Bean
+        UserDetailsService userDetailsService() {
+          return new UserDetailsServiceImpl();
+       }
+       
+        @Bean
+        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+          http
+                .authorizeHttpRequests(authorize -> authorize
+                      .requestMatchers("/register", "/login").permitAll()
+                      .anyRequest().authenticated())
+                .formLogin(form -> form
+                      .loginPage("/login")
+                      .defaultSuccessUrl("/shops", true)
+                      .permitAll())
+                .logout(logout -> logout
+                      .permitAll())
+                .userDetailsService(userDetailsService());
+
+          return http.build();
+       } 
  
 }
