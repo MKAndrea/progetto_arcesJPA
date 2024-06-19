@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.utente.crud.Utente2Crud;
+import it.utente.entity.Utente;
 import it.utente.entity.Utente2;
 
 @RestController

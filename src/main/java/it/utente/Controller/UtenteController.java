@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.utente.crud.Utente2Crud;
 import it.utente.entity.Utente;
@@ -27,14 +28,17 @@ public class UtenteController {
 	   
 
 	   @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	    public ResponseEntity<String> registerUser(@RequestBody Utente user) {
+	    public String registerUser(@RequestParam String username, @RequestParam String password, Model model) {
 	        try {
-	            Utente registerUser = utentecrud.registerUser(user.getUsername(), user.getPassword());
-	            return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+	            Utente registerUser = utentecrud.registerUser(username, password);
+	            model.addAttribute("message", "User registered successfully");
+	            return "login"; // Restituisce il template login.html
 	        } catch (IllegalArgumentException e) {
-	            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	            model.addAttribute("error", e.getMessage());
+	            return "register"; // In caso di errore, restituisce la vista di registrazione
 	        } catch (RuntimeException e) {
-	            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	            model.addAttribute("error", e.getMessage());
+	            return "register"; // In caso di errore, restituisce la vista di registrazione
 	        }
 	    }
 	   

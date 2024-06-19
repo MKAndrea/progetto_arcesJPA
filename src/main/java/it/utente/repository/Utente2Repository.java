@@ -21,11 +21,11 @@ public interface Utente2Repository extends JpaRepository<Utente2,Integer>{
 	 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO users (idutente, nome, cognome, username, cellulare, indirizzo, eta, password, role, enabled) " +
-                   "VALUES (:idutente, :nome, :cognome, :username, :cellulare, :indirizzo, :eta, :password, :role, :enabled) " +
+    @Query(value = "INSERT INTO users (idutente, nome, cognome, username, cellulare, indirizzo, eta, password) " +
+                   "VALUES (:idutente, :nome, :cognome, :username, :cellulare, :indirizzo, :eta, :password) " +
                    "ON DUPLICATE KEY UPDATE nome = :nome, cognome = :cognome, username = :username, " +
-                   "cellulare = :cellulare, indirizzo = :indirizzo, eta = :eta, password = :password, " +
-                   "role = :role, enabled = :enabled", nativeQuery = true)
+                   "cellulare = :cellulare, indirizzo = :indirizzo, eta = :eta, password = :password, "
+                   , nativeQuery = true)
     void upsertUser(@Param("idutente") int id, 
                     @Param("nome") String nome, 
                     @Param("cognome") String cognome,
@@ -33,7 +33,6 @@ public interface Utente2Repository extends JpaRepository<Utente2,Integer>{
                     @Param("cellulare") String cellulare, 
                     @Param("indirizzo") String indirizzo, 
                     @Param("eta") int eta, 
-                    @Param("password") String password,
-                    @Param("role") String role,
-                    @Param("enabled") boolean enabled);
+                    @Param("password") String password
+                   );
 }

@@ -34,7 +34,7 @@ public class WebSecurityConfig  {
                       .anyRequest().authenticated())
                 .formLogin(form -> form
                       .loginPage("/login")
-                      .defaultSuccessUrl("/shops", true)
+                      .defaultSuccessUrl("/api/allShop", true)
                       .permitAll())
                 .logout(logout -> logout
                       .permitAll())

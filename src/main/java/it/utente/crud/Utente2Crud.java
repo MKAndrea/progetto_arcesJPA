@@ -45,6 +45,7 @@ public class Utente2Crud {
         return repository.findAll();
     }
 
+
     public Utente2 getUserById(int id) {
         return repository.findById(id).orElse(null);
     }
